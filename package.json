@@ -1,0 +1,16 @@
+{
+    "name": "chihaya",
+    "version": "0.0.1",
+    "description": "Load a chihaya-formatted delayed matrix into a Javascript session",
+    "type": "module",
+    "license": "MIT",
+    "main": "src/index.js",
+    "author": {
+        "name": "Aaron Lun",
+        "email": "infinite.monkeys.with.keyboards@gmail.com",
+        "url": "https://github.com/LTLA"
+    },
+    "dependencies": {
+        "scran.js": "^0.4.2"
+    }
+}
