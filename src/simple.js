@@ -1,6 +1,6 @@
 import * as scran from "scran.js";
 
-export function load_dense_array(handle, options = {}) {
+export function load_dense_array(handle) {
     let dhandle = handle.open("data", { load: true });
     let arr = dhandle.values;
     let shape = dhandle.shape;
@@ -12,8 +12,9 @@ export function load_dense_array(handle, options = {}) {
     return mat;
 }
 
-export function load_csparse_matrix(handle, { layered = true } = {}) {
-    let mat = scran.initializeSparseMatrixFromHDF5(handle.file, handle.name, { layered: layered });
+export function load_csparse_matrix(handle) {
+    // TODO: add global option to set/unset layered status.
+    let mat = scran.initializeSparseMatrixFromHDF5(handle.file, handle.name);
 
     if (mat.isReorganized()) {
         // Restoring the order, which is easier than carrying a custom order

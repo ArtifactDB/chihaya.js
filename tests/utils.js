@@ -29,3 +29,19 @@ export function dump_dense(handle, nrow, ncol) {
 
     return content;
 }
+
+export function almost_equal(vec1, vec2) {
+    if (vec1.length !== vec2.length) {
+        return false;
+    }
+
+    for (var i = 0; i < vec1.length; i++) {
+        let x1 = vec1[i];
+        let x2 = vec2[i];
+        if (Math.abs(x1 - x2) > (Math.abs(x1) + Math.abs(x2) + 1e-5) * 1e-8) {
+            return false;
+        }
+    }
+
+    return true;
+}
