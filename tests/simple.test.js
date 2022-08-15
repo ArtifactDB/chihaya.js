@@ -11,28 +11,17 @@ test("dense loaders work as expected", () => {
 
     let fhandle = scran.createNewHDF5File(path);
     let ghandle = fhandle.createGroup("foo");
-    ghandle.writeAttribute("delayed_type", "String", [], "array");
-    ghandle.writeAttribute("delayed_array", "String", [], "dense array");
 
-    // Note that we're transposed here, as native = 0.
-    // So, the shape is [ncol, nrow].
-    let shape = [10, 5];
-    let content = [];
-    for (var r = 0; r < shape[1]; r++) {
-        for (var c = 0; c < shape[0]; c++) {
-            content.push(Math.random());
-        }
-    }
-
-    ghandle.writeDataSet("data", "Float64", shape, content);
-    ghandle.writeDataSet("native", "Uint8", [], 0);
+    let NR = 5;
+    let NC = 10;
+    let content = utils.dump_dense(ghandle, NR, NC);
 
     // Now seeing if we can read it.
     let mat = chihaya.load(path, "foo");
-    expect(mat.numberOfRows()).toBe(5);
-    expect(mat.numberOfColumns()).toBe(10);
-    expect(Array.from(mat.column(0))).toEqual(content.slice(0, 5));
-    expect(Array.from(mat.column(9))).toEqual(content.slice(45, 50));
+    expect(mat.numberOfRows()).toBe(NR);
+    expect(mat.numberOfColumns()).toBe(NC);
+    expect(Array.from(mat.column(0))).toEqual(content.slice(0, NR));
+    expect(Array.from(mat.column(9))).toEqual(content.slice(NR * (NC - 1), NR * NC));
 
     mat.free();
 })
