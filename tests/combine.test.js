@@ -1,0 +1,42 @@
+import * as scran from "scran.js";
+import * as chihaya from "../src/index.js";
+import * as utils from "./utils.js";
+
+beforeAll(async () => { await scran.initialize({ localFile: true }); });
+afterAll(async () => { await scran.terminate() });
+
+test("combine loader works as expected with columns", () => {
+    const path = utils.testdir + "/test-combine.h5";
+    utils.purge(path);
+
+    let fhandle = scran.createNewHDF5File(path);
+    let ghandle = fhandle.createGroup("foo");
+    ghandle.writeAttribute("delayed_type", "String", [], "operation");
+    ghandle.writeAttribute("delayed_operation", "String", [], "combine");
+    ghandle.writeDataSet("along", "Int32", null, 1);
+
+    let lhandle = ghandle.createGroup("seeds");
+    lhandle.writeAttribute("length", "Int32", null, 2);
+    let NR = 20;
+
+    let dhandle1 = lhandle.createGroup("0");
+    let NC1 = 5;
+    let content1 = utils.dump_dense(dhandle1, NR, NC1);
+
+    let dhandle2 = lhandle.createGroup("1");
+    let NC2 = 3;
+    let content2 = utils.dump_dense(dhandle2, NR, NC2);
+
+    // Checking if we can load it.
+    let mat = chihaya.load(path, "foo");
+    expect(mat.numberOfRows()).toBe(NR);
+    expect(mat.numberOfColumns()).toBe(NC1 + NC2);
+
+    expect(Array.from(mat.column(0))).toEqual(content1.slice(0, NR));
+    expect(Array.from(mat.column(NC1 - 1))).toEqual(content1.slice((NC1 - 1) * NR, NC1 * NR));
+    expect(Array.from(mat.column(NC1))).toEqual(content2.slice(0, NR));
+    expect(Array.from(mat.column(NC1 + NC2 - 1))).toEqual(content2.slice((NC2 - 1) * NR, NC2 * NR));
+
+    mat.free();
+})
+
