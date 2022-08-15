@@ -10,7 +10,13 @@
         "email": "infinite.monkeys.with.keyboards@gmail.com",
         "url": "https://github.com/LTLA"
     },
+    "scripts": {
+        "test": "node --experimental-vm-modules --experimental-wasm-threads --experimental-wasm-bulk-memory --experimental-wasm-bigint node_modules/jest/bin/jest.js --runInBand"
+    },
     "dependencies": {
         "scran.js": "^0.4.2"
+    },
+    "devDependencies": {
+        "jest": "^28.1.3"
     }
 }

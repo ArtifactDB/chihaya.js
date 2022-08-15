@@ -1,12 +1,13 @@
 import * as scran from "scran.js";
 
 export function load_dense_array(handle, options = {}) {
-    let arr = handle.load();
-    let shape = handle.shape;
+    let dhandle = handle.open("data", { load: true });
+    let arr = dhandle.values;
+    let shape = dhandle.shape;
 
     // By default, fastest changing dimension (i.e. rows) is last in HDF5.
     // TODO: handle the native case with row-major storage.
-    let mat = scran.initialize(shape[1], shape[0], arr);
+    let mat = scran.initializeDenseMatrixFromDenseArray(shape[1], shape[0], arr);
 
     return mat;
 }
