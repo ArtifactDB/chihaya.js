@@ -6,4 +6,7 @@ set -u
 builddir=build
 emcmake cmake -S . -B $builddir -DCMAKE_BUILD_TYPE=Release
 (cd $builddir && emmake make)
-cp -r $builddir/chihaya.* final
+
+findir=final
+mkdir -p $findir
+cp -r $builddir/chihaya.* $findir
