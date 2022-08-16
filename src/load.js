@@ -1,6 +1,7 @@
 import * as simple from "./simple.js";
 import * as subset from "./subset.js";
 import * as combine from "./combine.js";
+import * as transpose from "./transpose.js";
 import * as unary_a from "./unary_arith.js";
 import * as unary_m from "./unary_math.js";
 import * as scran from "scran.js";
@@ -27,6 +28,8 @@ export function load_(handle) {
             return subset.load_subset(handle, load_);
         } else if (op == "combine") {
             return combine.load_combine(handle, load_);
+        } else if (op == "transpose") {
+            return transpose.load_transpose(handle, load_);
         } else if (op == "unary arithmetic") {
             return unary_a.load_unary_arithmetic(handle, load_);
         } else if (op == "unary math") {

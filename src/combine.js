@@ -7,10 +7,9 @@ export function load_combine(handle, loadFun) {
 
     let shandle = handle.open("seeds");
     let seeds = utils.load_list(shandle, { vectorsOnly: false, loadFun: loadFun });
-    console.log(seeds);
     try {
         if (along == 0) {
-            throw new Error("delayed row binding is not yet supported");
+            output = scran.rbind(seeds);
         } else {
             output = scran.cbind(seeds);
         }
@@ -23,4 +22,3 @@ export function load_combine(handle, loadFun) {
 
     return output;
 }
-

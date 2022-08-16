@@ -40,3 +40,36 @@ test("combine loader works as expected with columns", () => {
     mat.free();
 })
 
+test("combine loader works as expected with rows", () => {
+    const path = utils.testdir + "/test-combine.h5";
+    utils.purge(path);
+
+    let fhandle = scran.createNewHDF5File(path);
+    let ghandle = fhandle.createGroup("foo");
+    ghandle.writeAttribute("delayed_type", "String", [], "operation");
+    ghandle.writeAttribute("delayed_operation", "String", [], "combine");
+    ghandle.writeDataSet("along", "Int32", null, 0);
+
+    let lhandle = ghandle.createGroup("seeds");
+    lhandle.writeAttribute("length", "Int32", null, 2);
+    let NC = 11;
+
+    let dhandle1 = lhandle.createGroup("0");
+    let NR1 = 15;
+    let content1 = utils.dump_dense(dhandle1, NR1, NC);
+
+    let dhandle2 = lhandle.createGroup("1");
+    let NR2 = 13;
+    let content2 = utils.dump_dense(dhandle2, NR2, NC);
+
+    // Checking if we can load it.
+    let mat = chihaya.load(path, "foo");
+    expect(mat.numberOfRows()).toBe(NR1 + NR2);
+    expect(mat.numberOfColumns()).toBe(NC);
+
+    expect(Array.from(mat.column(0))).toEqual([ ...content1.slice(0, NR1), ...content2.slice(0, NR2) ]);
+    expect(Array.from(mat.column(NC - 1))).toEqual([ ...content1.slice((NC - 1) * NR1, NC * NR1), ...content2.slice((NC - 1) * NR2, NC * NR2) ]);
+
+    mat.free();
+})
+
