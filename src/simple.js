@@ -12,15 +12,27 @@ export function load_dense_array(handle) {
     return mat;
 }
 
-export function load_csparse_matrix(handle) {
-    // TODO: add global option to set/unset layered status.
-    let mat = scran.initializeSparseMatrixFromHDF5(handle.file, handle.name);
+var create_layered = true;
 
-    if (mat.isReorganized()) {
+export function sparseLayered(layered = null) {
+    if (layered == null) {
+        return create_layered;
+    } else {
+        let old = create_layered;
+        create_layered = layered;
+        return old;
+    }
+}
+
+export function load_csparse_matrix(handle) {
+    let raw = scran.initializeSparseMatrixFromHDF5(handle.file, handle.name, { layered: sparseLayered() });
+    let mat = raw.matrix;
+
+    if (raw.row_ids !== null) {
         // Restoring the order, which is easier than carrying a custom order
         // throughout the various delayed layers.
         let new_ids = new Int32Array(mat.numberOfRows());
-        mat.identities().forEach((x, i) => {
+        raw.row_ids.forEach((x, i) => {
             new_ids[x] = i;
         });
         scran.subsetRows(mat, new_ids, { inPlace: true });

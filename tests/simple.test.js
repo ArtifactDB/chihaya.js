@@ -45,7 +45,8 @@ test("sparse loaders work as expected", () => {
     for (var c = 0; c < NC; c++) {
         for (var r = 0; r < NR; r++) {
             if (Math.random() < 0.2) {
-                x.push(Math.round(Math.random() * 10));
+                let multiplier = 10 ** (1 + 2 * (r % 3)); // values ranging from 10 to 100000.
+                x.push(Math.round(Math.random() * multiplier));
                 i.push(r);
                 counter++;
             }
@@ -78,5 +79,23 @@ test("sparse loaders work as expected", () => {
     }
     expect(Array.from(mat.column(NC - 1))).toEqual(last_col);
 
+    // Same results without layering.
+    expect(chihaya.sparseLayered()).toBe(true);
+    chihaya.sparseLayered(false);
+    let mat2;
+    try {
+        expect(chihaya.sparseLayered()).toBe(false);
+
+        mat2 = chihaya.load(path, "foo");
+        expect(mat2.numberOfRows()).toBe(NR);
+        expect(mat2.numberOfColumns()).toBe(NC);
+        expect(mat.column(0)).toEqual(mat2.column(0));
+        expect(mat.column(NC - 1)).toEqual(mat2.column(NC - 1));
+    } finally {
+        chihaya.sparseLayered(true);
+    }
+
     mat.free();
+    mat2.free();
+
 })
