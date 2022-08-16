@@ -11,12 +11,15 @@
         "url": "https://github.com/LTLA"
     },
     "scripts": {
+        "jsdoc": "npx jsdoc -r src README.md -d docs/built -c docs/jsdoc.config.json",
         "test": "node --experimental-vm-modules --experimental-wasm-threads --experimental-wasm-bulk-memory --experimental-wasm-bigint node_modules/jest/bin/jest.js --runInBand"
     },
     "dependencies": {
         "scran.js": "^0.4.2"
     },
     "devDependencies": {
-        "jest": "^28.1.3"
+        "docdash": "^1.2.0",
+        "jest": "^28.1.3",
+        "jsdoc": "^3.6.11"
     }
 }

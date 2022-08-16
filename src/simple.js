@@ -14,6 +14,17 @@ export function load_dense_array(handle) {
 
 var create_layered = true;
 
+/**
+ * Should sparse matrices be loaded in layered format?
+ * This sacrifice some access speed for improved memory efficiency.
+ *
+ * @param {?boolean} [layered=null] - Whether to load a sparse matrix in layered format.
+ * If `null`, the existing value of this flag is returned without any change.
+ *
+ * @return If `layered = null`, the existing value of this flag is directly returned.
+ *
+ * Otherwise, the flag is set to `layered` and the previous value of the flag is returned.
+ */
 export function sparseLayered(layered = null) {
     if (layered == null) {
         return create_layered;

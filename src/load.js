@@ -6,8 +6,17 @@ import * as unary_a from "./unary_arith.js";
 import * as unary_m from "./unary_math.js";
 import * as scran from "scran.js";
 
-export function load(file, path) {
-    let handle = new scran.H5Group(file, path);
+/**
+ * Load a delayed matrix from a **chihaya**-formatted HDF5 file into a [ScranMatrix](https://jkanche.github.io/scran.js/ScranMatrix.html) object.
+ *
+ * @param {string} path - Path to the file.
+ * On browsers, this file should be present on the virtual file system, see [`writeFile`](https://www.jkanche.com/scran.js/global.html#writeFile).
+ * @param {string} name - Name of the group representing the delayed matrix.
+ *
+ * @return A ScranMatrix containing the delayed matrix.
+ */
+export function load(path, name) {
+    let handle = new scran.H5Group(path, name);
     return load_(handle);
 }
 

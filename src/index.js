@@ -1,2 +1,2 @@
-export * from "./load.js";
-export { sparseLayered} from "./simple.js";
+export { load } from "./load.js";
+export { sparseLayered } from "./simple.js";
