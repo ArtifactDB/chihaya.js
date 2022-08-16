@@ -2,8 +2,8 @@ import * as scran from "scran.js";
 import * as chihaya from "../src/index.js";
 import * as utils from "./utils.js";
 
-beforeAll(async () => { await scran.initialize({ localFile: true }); });
-afterAll(async () => { await scran.terminate() });
+beforeAll(async () => { await utils.initialize(); });
+afterAll(async () => { await utils.terminate() });
 
 test("unary math loader works for most things", () => {
     const path = utils.testdir + "/test-unary-math.h5";
@@ -19,6 +19,7 @@ test("unary math loader works for most things", () => {
     let NR = 7;
     let NC = 8;
     let content = utils.dump_dense(dhandle, NR, NC);
+    utils.validate(path, "foo");
 
     // Let's try loading it in.
     let mat = chihaya.load(path, "foo");
@@ -47,6 +48,7 @@ test("unary math loader works for log", () => {
     let NR = 7;
     let NC = 8;
     let content = utils.dump_dense(dhandle, NR, NC);
+    utils.validate(path, "foo");
 
     // Let's try loading it in.
     {

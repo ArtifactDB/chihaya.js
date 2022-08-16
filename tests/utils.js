@@ -1,4 +1,6 @@
 import * as fs from "fs";
+import loadChihaya from "../wasm/final/chihaya.js";
+import * as scran from "scran.js";
 
 export const testdir = "hdf5-test-files";
 if (!fs.existsSync(testdir)) {
@@ -44,4 +46,34 @@ export function almost_equal(vec1, vec2) {
     }
 
     return true;
+}
+
+var cache = {};
+
+export async function initialize({ localFile = true } = {}) {
+    await scran.initialize({ localFile: localFile });
+
+    let options = {};
+    if (localFile) {
+        options.locateFile = (x) => import.meta.url.substring(7) + "/../../wasm/final/" + x;
+    }
+
+    cache.module = await loadChihaya(options);
+}
+
+export async function terminate() {
+    await scran.terminate();
+}
+
+export function validate(path, name) {
+    try {
+        cache.module.validate(path, name);
+    } catch (e) {
+        if (typeof e == "number") {
+            let err = cache.module.get_error_message(e);
+            throw new Error(err);
+        } else {
+            throw e;
+        }
+    }
 }

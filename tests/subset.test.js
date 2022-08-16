@@ -2,8 +2,8 @@ import * as scran from "scran.js";
 import * as chihaya from "../src/index.js";
 import * as utils from "./utils.js";
 
-beforeAll(async () => { await scran.initialize({ localFile: true }); });
-afterAll(async () => { await scran.terminate() });
+beforeAll(async () => { await utils.initialize() });
+afterAll(async () => { await utils.terminate() });
 
 test("subset loader works as expected with rows", () => {
     const path = utils.testdir + "/test-subset.h5";
@@ -18,12 +18,14 @@ test("subset loader works as expected with rows", () => {
     let ihandle = ghandle.createGroup("index");
     let rowsub = [5, 19, 2, 7, 11];
     ihandle.writeDataSet("0", "Int32", null, rowsub);
-    ihandle.writeAttribute("length", "Int32", null, 2);
+    ihandle.writeAttribute("delayed_type", "String", null, "list");
+    ihandle.writeAttribute("delayed_length", "Int32", null, 2);
 
     let dhandle = ghandle.createGroup("seed");
     let NR = 20;
     let NC = 15;
     let content = utils.dump_dense(dhandle, NR, NC);
+    utils.validate(path, "foo");
 
     // Checking that we can load it in.
     let mat = chihaya.load(path, "foo");
@@ -51,12 +53,14 @@ test("subset loader works as expected with columns", () => {
     let ihandle = ghandle.createGroup("index");
     let colsub = [1, 3, 5, 10];
     ihandle.writeDataSet("1", "Int32", null, colsub);
-    ihandle.writeAttribute("length", "Int32", null, 2);
+    ihandle.writeAttribute("delayed_type", "String", null, "list");
+    ihandle.writeAttribute("delayed_length", "Int32", null, 2);
 
     let dhandle = ghandle.createGroup("seed");
     let NR = 11;
     let NC = 15;
     let content = utils.dump_dense(dhandle, NR, NC);
+    utils.validate(path, "foo");
 
     // Checking that we can load it in.
     let mat = chihaya.load(path, "foo");
@@ -88,12 +92,14 @@ test("subset loader works as expected with both rows and columns", () => {
     ihandle.writeDataSet("0", "Int32", null, rowsub);
     let colsub = [9, 7, 5, 3, 1];
     ihandle.writeDataSet("1", "Int32", null, colsub);
-    ihandle.writeAttribute("length", "Int32", null, 2);
+    ihandle.writeAttribute("delayed_type", "String", null, "list");
+    ihandle.writeAttribute("delayed_length", "Int32", null, 2);
 
     let dhandle = ghandle.createGroup("seed");
     let NR = 10;
     let NC = 10;
     let content = utils.dump_dense(dhandle, NR, NC);
+    utils.validate(path, "foo");
 
     // Checking that we can load it in.
     let mat = chihaya.load(path, "foo");

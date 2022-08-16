@@ -2,8 +2,8 @@ import * as scran from "scran.js";
 import * as chihaya from "../src/index.js";
 import * as utils from "./utils.js";
 
-beforeAll(async () => { await scran.initialize({ localFile: true }); });
-afterAll(async () => { await scran.terminate() });
+beforeAll(async () => { await utils.initialize(); });
+afterAll(async () => { await utils.terminate() });
 
 test("dense loaders work as expected", () => {
     const path = utils.testdir + "/test-dense.h5";
@@ -15,6 +15,7 @@ test("dense loaders work as expected", () => {
     let NR = 5;
     let NC = 10;
     let content = utils.dump_dense(ghandle, NR, NC);
+    utils.validate(path, "foo");
 
     // Now seeing if we can read it.
     let mat = chihaya.load(path, "foo");
@@ -56,6 +57,7 @@ test("sparse loaders work as expected", () => {
     ghandle.writeDataSet("indices", "Int32", null, i); 
     ghandle.writeDataSet("indptr", "Int32", null, p); 
     ghandle.writeDataSet("shape", "Int32", null, [NR, NC]); 
+    utils.validate(path, "foo");
 
     // Now seeing if we can read it.
     let mat = chihaya.load(path, "foo");

@@ -1,11 +1,17 @@
 import * as scran from "scran.js";
 
 export function load_list(handle, { vectorsOnly = true, loadFun = null } = {}) {
-    if (handle.attributes.indexOf("length") == -1) {
-        throw new Error("expected a 'length' attribute to be present for lists");
+    if (handle.attributes.indexOf("delayed_type") == -1) {
+        throw new Error("expected a 'delayed_type' attribute to be present for lists");
+    }
+    if (handle.readAttribute("delayed_type").values[0] != "list") {
+        throw new Error("'delayed_type' attribute should be 'list' for lists");
     }
 
-    let n = handle.readAttribute("length").values[0];
+    if (handle.attributes.indexOf("delayed_length") == -1) {
+        throw new Error("expected a 'delayed_length' attribute to be present for lists");
+    }
+    let n = handle.readAttribute("delayed_length").values[0];
     let output = [];
 
     try {

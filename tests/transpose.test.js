@@ -2,8 +2,8 @@ import * as scran from "scran.js";
 import * as chihaya from "../src/index.js";
 import * as utils from "./utils.js";
 
-beforeAll(async () => { await scran.initialize({ localFile: true }); });
-afterAll(async () => { await scran.terminate() });
+beforeAll(async () => { await utils.initialize(); });
+afterAll(async () => { await utils.terminate() });
 
 test("transpose loaders work as expected", () => {
     const path = utils.testdir + "/test-transpose.h5";
@@ -19,6 +19,7 @@ test("transpose loaders work as expected", () => {
     let NR = 12;
     let NC = 11;
     let content = utils.dump_dense(shandle, NR, NC);
+    utils.validate(path, "foo");
 
     let mat = chihaya.load(path, "foo");
     expect(mat.numberOfRows()).toBe(NC);

@@ -2,8 +2,8 @@ import * as scran from "scran.js";
 import * as chihaya from "../src/index.js";
 import * as utils from "./utils.js";
 
-beforeAll(async () => { await scran.initialize({ localFile: true }); });
-afterAll(async () => { await scran.terminate() });
+beforeAll(async () => { await utils.initialize() });
+afterAll(async () => { await utils.terminate() });
 
 test("combine loader works as expected with columns", () => {
     const path = utils.testdir + "/test-combine.h5";
@@ -16,7 +16,8 @@ test("combine loader works as expected with columns", () => {
     ghandle.writeDataSet("along", "Int32", null, 1);
 
     let lhandle = ghandle.createGroup("seeds");
-    lhandle.writeAttribute("length", "Int32", null, 2);
+    lhandle.writeAttribute("delayed_type", "String", null, "list");
+    lhandle.writeAttribute("delayed_length", "Int32", null, 2);
     let NR = 20;
 
     let dhandle1 = lhandle.createGroup("0");
@@ -26,6 +27,7 @@ test("combine loader works as expected with columns", () => {
     let dhandle2 = lhandle.createGroup("1");
     let NC2 = 3;
     let content2 = utils.dump_dense(dhandle2, NR, NC2);
+    utils.validate(path, "foo");
 
     // Checking if we can load it.
     let mat = chihaya.load(path, "foo");
@@ -51,7 +53,8 @@ test("combine loader works as expected with rows", () => {
     ghandle.writeDataSet("along", "Int32", null, 0);
 
     let lhandle = ghandle.createGroup("seeds");
-    lhandle.writeAttribute("length", "Int32", null, 2);
+    lhandle.writeAttribute("delayed_type", "String", null, "list");
+    lhandle.writeAttribute("delayed_length", "Int32", null, 2);
     let NC = 11;
 
     let dhandle1 = lhandle.createGroup("0");
@@ -61,6 +64,7 @@ test("combine loader works as expected with rows", () => {
     let dhandle2 = lhandle.createGroup("1");
     let NR2 = 13;
     let content2 = utils.dump_dense(dhandle2, NR2, NC);
+    utils.validate(path, "foo");
 
     // Checking if we can load it.
     let mat = chihaya.load(path, "foo");
