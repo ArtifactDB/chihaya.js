@@ -15,7 +15,7 @@
         "test": "node --experimental-vm-modules --experimental-wasm-threads --experimental-wasm-bulk-memory --experimental-wasm-bigint node_modules/jest/bin/jest.js --runInBand"
     },
     "dependencies": {
-        "scran.js": "^0.4.2"
+        "scran.js": "^0.5.0"
     },
     "devDependencies": {
         "docdash": "^1.2.0",
