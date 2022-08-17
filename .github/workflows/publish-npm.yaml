@@ -1,0 +1,49 @@
+on:
+  workflow_run:
+    workflows: [Test JS bindings]
+    types: [completed]
+    branches: [master]
+
+name: Publish to NPM 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+    - name: Checkout the repo
+      uses: actions/checkout@v2
+
+    # We only run the remote-touching steps if the version has actually changed.
+    - name: Extract package versions
+      shell: bash
+      run: |
+        current_version=$(cat package.json | grep "version" | sed -e 's/.*"\([0-9\.]*\)".*/\1/')
+        echo "NEW_CHIHAYA_VERSION=${current_version}" >> $GITHUB_ENV
+        old_version=$(npm view chihaya version)
+        update=0 && [[ $old_version != $current_version ]] && update=1
+        echo "UPDATE_CHIHAYA=${update}" >> $GITHUB_ENV
+        echo "Current version is ${current_version} (published ${old_version})"
+
+    - uses: actions/setup-node@v2
+      if: env.UPDATE_CHIHAYA == 1
+      with:
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Publish to NPM
+      if: env.UPDATE_CHIHAYA == 1
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    - name: Tagging the release
+      if: env.UPDATE_CHIHAYA == 1
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'refs/tags/' + process.env.NEW_CHIHAYA_VERSION,
+            sha: context.sha
+          })        

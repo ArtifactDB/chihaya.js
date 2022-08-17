@@ -2,3 +2,4 @@ tests/
 docs/
 .github/
 wasm/
+hdf5-test-files
