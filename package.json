@@ -21,5 +21,11 @@
         "docdash": "^1.2.0",
         "jest": "^28.1.3",
         "jsdoc": "^3.6.11"
-    }
+    },
+    "repository": "github:ltla/chihaya",
+    "bugs": "https://github.com/ltla/chihaya/issues",
+    "keywords": [
+        "bioinformatics",
+        "webassembly"
+    ]
 }
