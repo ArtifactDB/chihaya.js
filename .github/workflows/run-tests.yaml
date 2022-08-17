@@ -1,0 +1,28 @@
+on: [push]
+
+name: Test JS bindings
+
+jobs:
+  test-js:
+    runs-on: ubuntu-latest
+    container: ghcr.io/ltla/chihaya.js/builder:latest
+    defaults:
+      run:
+        working-directory: /chihaya.js
+
+    steps:
+    - name: Get to the right branch
+      run: |
+        git fetch --all
+        git checkout $GITHUB_SHA
+
+    - name: Update node build 
+      run: |
+        cd wasm
+        bash build.sh
+
+    - name: Update NPM packages
+      run: npm i --include=dev
+
+    - name: Run tests
+      run: npm run test
