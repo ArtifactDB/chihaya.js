@@ -5,6 +5,7 @@ import * as transpose from "./transpose.js";
 import * as unary_a from "./unary_arith.js";
 import * as unary_m from "./unary_math.js";
 import * as scran from "scran.js";
+import * as ov from "./overrides.js";
 
 /**
  * Load a delayed matrix from a **chihaya**-formatted HDF5 file into a [ScranMatrix](https://jkanche.github.io/scran.js/ScranMatrix.html) object.
@@ -33,6 +34,10 @@ export function load_(handle) {
         let op_raw = handle.readAttribute("delayed_operation");
         let op = op_raw.values[0];
 
+        if (op in ov.operation_overrides) {
+            return ov.operation_overrides[op](handle, load_);
+        }
+
         if (op == "subset") {
             return subset.load_subset(handle, load_);
         } else if (op == "combine") {
@@ -43,6 +48,8 @@ export function load_(handle) {
             return unary_a.load_unary_arithmetic(handle, load_);
         } else if (op == "unary math") {
             return unary_m.load_unary_math(handle, load_);
+        } else {
+            throw new Error("delayed operation '" + op + "' is currently not supported");
         }
 
     } else if (type.values[0] == "array") {
@@ -52,12 +59,16 @@ export function load_(handle) {
         let arr_raw = handle.readAttribute("delayed_array");
         let arr = arr_raw.values[0];
 
+        if (arr in ov.array_overrides) {
+            return ov.array_overrides[arr](handle);
+        }
+
         if (arr == "dense array") {
             return simple.load_dense_array(handle);
         } else if (arr == "sparse matrix") {
             return simple.load_csparse_matrix(handle);
         } else {
-            // TODO: see if a fallback exists.
+            throw new Error("array type '" + arr + "' is currently not supported");
         }
 
     } else {
