@@ -1,6 +1,6 @@
 {
     "name": "chihaya",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Load a chihaya-formatted delayed matrix into a Javascript session",
     "type": "module",
     "license": "MIT",
@@ -23,6 +23,7 @@
         "jsdoc": "^3.6.11"
     },
     "repository": "github:ltla/chihaya",
+    "homepage": "https://github.com/ltla/chihaya",
     "bugs": "https://github.com/ltla/chihaya/issues",
     "keywords": [
         "bioinformatics",

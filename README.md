@@ -10,6 +10,7 @@ This enables web applications to read delayed matrices generated elsewhere, e.g.
 ## Quick start
 
 Usage is fairly simple once the HDF5 file is available.
+On browsers, the HDF5 file should be saved to the virtual filesystem using [`scran.writeFile()`](https://jkanche.com/scran.js/global.html#writeFile).
 
 ```js
 import * as scran from "scran.js";
@@ -18,7 +19,7 @@ await scran.initialize(); // may need localFile: true for old Node.js versions.
 let mat = await chihaya.load(path_to_file, name_of_group);
 ```
 
-This produces a [`ScranMatrix`](https://jkanche.com/scran.js/ScranMatrix.html) that can be queried or used in **scran.js** functions:
+The `load()` function produces a [`ScranMatrix`](https://jkanche.com/scran.js/ScranMatrix.html) that can be queried or used in **scran.js** functions:
 
 ```js
 let ncols = mat.numberOfColumns();
@@ -26,7 +27,7 @@ let first_row = mat.row(0);
 let normed = scran.logNormCounts(mat);
 ```
 
-Note that on browsers, the HDF5 file should be saved to the virtual filesystem using `scran.writeFile()`.
+See the [reference documentation](https://ltla.github.io/chihaya.js) for more details.
 
 ## Supported operations
 
@@ -43,6 +44,8 @@ Similarly, only a subset of arrays are supported:
 
 - Dense arrays in non-native storage
 - Compressed sparse column matrices
+
+Application developers can add custom handlers for their own delayed operations/arrays through the `registerArrayHandler()` and `registerOperationHandler()` functions.
 
 ## Developer notes
 
