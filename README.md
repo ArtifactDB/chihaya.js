@@ -30,13 +30,14 @@ Note that on browsers, the HDF5 file should be saved to the virtual filesystem u
 
 ## Supported operations
 
-Support for the **chihaya** specification is not yet complete, so only a subset of delayed operations are actually supported:
+Support for the **chihaya** specification is not yet complete, so only a subset of delayed operations are recognized:
 
 - Unary arithmetic (i.e., where only one of the operands is a delayed matrix)
 - Some of the unary math - `log`, `exp`, `log1p`, `sqrt`, `abs` and `round`.
 - Combining by row, column
 - Subsetting by row, column
 - Transposition
+- Dimnames assignment (which is silently ignored)
 
 Similarly, only a subset of arrays are supported:
 

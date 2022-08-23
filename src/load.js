@@ -4,6 +4,7 @@ import * as combine from "./combine.js";
 import * as transpose from "./transpose.js";
 import * as unary_a from "./unary_arith.js";
 import * as unary_m from "./unary_math.js";
+import * as dimnames from "./dimnames.js";
 import * as scran from "scran.js";
 import * as ov from "./overrides.js";
 
@@ -69,6 +70,8 @@ export function loadHandle(handle) {
             return unary_a.load_unary_arithmetic(handle);
         } else if (op == "unary math") {
             return unary_m.load_unary_math(handle);
+        } else if (op == "dimnames") {
+            return dimnames.load_dimnames(handle);
         } else {
             throw new Error("delayed operation '" + op + "' is currently not supported");
         }
