@@ -1,5 +1,5 @@
 import * as scran from "scran.js";
-import { load_ as loadFun } from "./load.js";
+import { loadHandle } from "./load.js";
 
 export async function load_unary_math(handle) {
     let method = handle.open("method", { load: true }).values[0];
@@ -10,7 +10,7 @@ export async function load_unary_math(handle) {
     }
 
     let shandle = handle.open("seed");
-    let mat = await loadFun(shandle);
+    let mat = await loadHandle(shandle);
     try {
         scran.delayedMath(mat, method, { logBase: logbase, inPlace: true });
     } catch (e) {

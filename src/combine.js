@@ -1,6 +1,6 @@
 import * as scran from "scran.js";
 import * as utils from "./utils.js";
-import { load_ as loadFun } from "./load.js";
+import { loadHandle } from "./load.js";
 
 export async function load_combine(handle) {
     let along = handle.open("along", { load: true }).values[0];
@@ -13,7 +13,7 @@ export async function load_combine(handle) {
     try {
         for (var i = 0; i < n; i++) {
             let chandle = shandle.open(String(i));
-            seeds.push(await loadFun(chandle));
+            seeds.push(await loadHandle(chandle));
         }
 
         if (along == 0) {

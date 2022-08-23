@@ -1,6 +1,6 @@
 import * as scran from "scran.js";
 import * as utils from "./utils.js";
-import { load_ as loadFun } from "./load.js";
+import { loadHandle } from "./load.js";
 
 export async function load_subset(handle) {
     let ihandle = handle.open("index");
@@ -8,7 +8,7 @@ export async function load_subset(handle) {
 
     let x;
     try {
-        x = await loadFun(handle.open("seed"));
+        x = await loadHandle(handle.open("seed"));
 
         if (indices[0] !== null) {
             scran.subsetRows(x, indices[0], { inPlace: true });

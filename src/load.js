@@ -14,6 +14,13 @@ import * as ov from "./overrides.js";
  */
 
 /**
+ * Class representing a Group inside a HDF5 file.
+ * This may also be the file itself, which is treated as a root group.
+ * @external H5Group
+ * @see {@link https://www.jkanche.com/scran.js/H5Group.html}
+ */
+
+/**
  * Load a delayed matrix from a **chihaya**-formatted HDF5 file into a [ScranMatrix](https://jkanche.github.io/scran.js/ScranMatrix.html) object.
  *
  * @param {string} path - Path to the file.
@@ -24,10 +31,18 @@ import * as ov from "./overrides.js";
  */
 export function load(path, name) {
     let handle = new scran.H5Group(path, name);
-    return load_(handle);
+    return loadHandle(handle);
 }
 
-export function load_(handle) {
+/**
+ * Load a delayed matrix from a HDF5 handle into a {@linkplain external:ScranMatrix ScranMatrix} object.
+ * This can be used by developers to load delayed array seeds in handlers for custom operations.
+ *
+ * @param {external:H5Group} path - Handle to a HDF5 group.
+ *
+ * @return {Promise<external:ScranMatrix>} Promise resolving to a {@linkplain external:ScranMatrix ScranMatrix} containing the delayed matrix.
+ */
+export function loadHandle(handle) {
     if (handle.attributes.indexOf("delayed_type") == -1) {
         throw new Error("expected a 'delayed_type' attribute");
     }

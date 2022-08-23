@@ -1,6 +1,6 @@
 import * as scran from "scran.js";
 import * as utils from "./utils.js";
-import { load_ as loadFun } from "./load.js";
+import { loadHandle } from "./load.js";
 
 export async function load_transpose(handle) {
     let aperm = handle.open("permutation", { load: true }).values;
@@ -9,7 +9,7 @@ export async function load_transpose(handle) {
     let output;
     try {
         let shandle = handle.open("seed");
-        output = await loadFun(shandle);
+        output = await loadHandle(shandle);
         if (do_it) {
             scran.transpose(output, { inPlace: true });
         }
