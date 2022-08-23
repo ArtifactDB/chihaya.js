@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>simple.js - Documentation</title>
+    <title>overrides.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -34,7 +34,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">simple.js</h1>
+    <h1 class="page-title">overrides.js</h1>
     
 
     
@@ -44,59 +44,55 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import * as scran from "scran.js";
+            <pre class="prettyprint source linenums"><code>export var array_overrides = {};
+export var operation_overrides = {};
 
-export function load_dense_array(handle) {
-    let dhandle = handle.open("data", { load: true });
-    let arr = dhandle.values;
-    let shape = dhandle.shape;
-
-    // By default, fastest changing dimension (i.e. rows) is last in HDF5.
-    // TODO: handle the native case with row-major storage.
-    let mat = scran.initializeDenseMatrixFromDenseArray(shape[1], shape[0], arr);
-
-    return mat;
-}
-
-var create_layered = true;
-
-/**
- * Should sparse matrices be loaded in layered format?
- * This sacrifices some access speed for improved memory efficiency - see [here](https://github.com/jkanche/scran.js/blob/master/docs/related/row_permutations.md) for details.
- * (Note that **chihaya** automatically restores the original row order, so no extra book-keeping is required for `row_ids`.)
- *
- * @param {?boolean} [layered=null] - Whether to load a sparse matrix in layered format.
- * If `null`, the existing value of this flag is returned without any change.
- *
- * @return If `layered = null`, the existing value of this flag is directly returned.
- *
- * Otherwise, the flag is set to `layered` and the previous value of the flag is returned.
- */
-export function sparseLayered(layered = null) {
-    if (layered == null) {
-        return create_layered;
-    } else {
-        let old = create_layered;
-        create_layered = layered;
+function registerHandler(key, handler, overrides) {
+    if (key in overrides) {
+        let old = overrides[key];
+        if (handler == null){
+            delete overrides[key];
+        } else {
+            overrides[key] = handler;
+        }
         return old;
     }
+
+    if (handler !== null) {
+        overrides[key] = handler;
+    }
+    return null;
 }
 
-export function load_csparse_matrix(handle) {
-    let raw = scran.initializeSparseMatrixFromHDF5(handle.file, handle.name, { layered: sparseLayered() });
-    let mat = raw.matrix;
+/**
+ * Get or set custom handlers for arrays in a **chihaya**-formatted HDF5 file.
+ *
+ * @param {string} array - Type of the delayed array, matched against the `delayed_array` attribute.
+ * @param {?function} handler - Handler function that accepts a HDF5 group handle (corresponding to the array) and returns a {@linkplain external:ScranMatrix ScranMatrix} object.
+ * If `null`, any custom handler was previously registered will be removed.
+ *
+ * @return {?function} The previously registered handler function, or `null` if no handler was previously registered.
+ */
+export function registerArrayHandler(array, handler) {
+    return registerHandler(array, handler, array_overrides);
+}
 
-    if (raw.row_ids !== null) {
-        // Restoring the order, which is easier than carrying a custom order
-        // throughout the various delayed layers.
-        let new_ids = new Int32Array(mat.numberOfRows());
-        raw.row_ids.forEach((x, i) => {
-            new_ids[x] = i;
-        });
-        scran.subsetRows(mat, new_ids, { inPlace: true });
-    }
-
-    return mat;
+/**
+ * Get or set custom handlers for delayed operations in a **chihaya**-formatted HDF5 file.
+ *
+ * @param {string} operation - Type of the delayed operation, matched against the `delayed_operation` attribute.
+ * @param {?function} handler - Handler function that accepts:
+ *
+ * - A HDF5 group handle, corresponding to the delayed operation.
+ * - A loader function to be applied to any delayed seeds in the operation.
+ * 
+ * The handler function should then returns a {@linkplain external:ScranMatrix ScranMatrix} object.
+ * If `null`, any custom handler was previously registered will be removed.
+ *
+ * @return {?function} The previously registered handler function, or `null` if no handler was previously registered.
+ */
+export function registerOperationHandler(operation, handler) {
+    return registerHandler(operation, handler, operation_overrides);
 }
 </code></pre>
         </article>
