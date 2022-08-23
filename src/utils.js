@@ -1,6 +1,6 @@
 import * as scran from "scran.js";
 
-export function load_list(handle, { vectorsOnly = true, loadFun = null } = {}) {
+export async function load_list(handle, { vectorsOnly = true, loadFun = null } = {}) {
     if (handle.attributes.indexOf("delayed_type") == -1) {
         throw new Error("expected a 'delayed_type' attribute to be present for lists");
     }
@@ -24,7 +24,7 @@ export function load_list(handle, { vectorsOnly = true, loadFun = null } = {}) {
                     output.push(contents);
                 } else {
                     let chandle = handle.open(child);
-                    output.push(loadFun(chandle));
+                    output.push(await loadFun(chandle));
                 }
             } else {
                 output.push(null);

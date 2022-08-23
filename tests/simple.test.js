@@ -5,7 +5,7 @@ import * as utils from "./utils.js";
 beforeAll(async () => { await utils.initialize(); });
 afterAll(async () => { await utils.terminate() });
 
-test("dense loaders work as expected", () => {
+test("dense loaders work as expected", async () => {
     const path = utils.testdir + "/test-dense.h5";
     utils.purge(path);
 
@@ -18,7 +18,7 @@ test("dense loaders work as expected", () => {
     utils.validate(path, "foo");
 
     // Now seeing if we can read it.
-    let mat = chihaya.load(path, "foo");
+    let mat = await chihaya.load(path, "foo");
     expect(mat.numberOfRows()).toBe(NR);
     expect(mat.numberOfColumns()).toBe(NC);
     expect(Array.from(mat.column(0))).toEqual(content.slice(0, NR));
@@ -27,7 +27,7 @@ test("dense loaders work as expected", () => {
     mat.free();
 })
 
-test("sparse loaders work as expected", () => {
+test("sparse loaders work as expected", async () => {
     const path = utils.testdir + "/test-sparse.h5";
     utils.purge(path);
 
@@ -61,7 +61,7 @@ test("sparse loaders work as expected", () => {
     utils.validate(path, "foo");
 
     // Now seeing if we can read it.
-    let mat = chihaya.load(path, "foo");
+    let mat = await chihaya.load(path, "foo");
     expect(mat.numberOfRows()).toBe(NR);
     expect(mat.numberOfColumns()).toBe(NC);
 
@@ -86,7 +86,7 @@ test("sparse loaders work as expected", () => {
     try {
         expect(chihaya.sparseLayered()).toBe(false);
 
-        mat2 = chihaya.load(path, "foo");
+        mat2 = await chihaya.load(path, "foo");
         expect(mat2.numberOfRows()).toBe(NR);
         expect(mat2.numberOfColumns()).toBe(NC);
         expect(mat.column(0)).toEqual(mat2.column(0));

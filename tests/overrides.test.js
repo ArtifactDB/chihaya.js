@@ -7,7 +7,7 @@ import * as utils from "./utils.js";
 beforeAll(async () => { await utils.initialize(); });
 afterAll(async () => { await utils.terminate() });
 
-test("array overrides work as expected", () => {
+test("array overrides work as expected", async () => {
     const path = utils.testdir + "/test-dense.h5";
     utils.purge(path);
 
@@ -28,7 +28,7 @@ test("array overrides work as expected", () => {
 
     // Now seeing if we can read it.
     try {
-        let mat = chihaya.load(path, "foo");
+        let mat = await chihaya.load(path, "foo");
         expect(mat.numberOfRows()).toBe(NR);
         expect(mat.numberOfColumns()).toBe(NC);
         expect(tripped[0]).toBe("foo");
@@ -38,7 +38,7 @@ test("array overrides work as expected", () => {
     }
 })
 
-test("operation overrides work as expected", () => {
+test("operation overrides work as expected", async () => {
     const path = utils.testdir + "/test-transpose.h5";
     utils.purge(path);
 
@@ -62,7 +62,7 @@ test("operation overrides work as expected", () => {
     expect(old).toBe(null);
 
     try {
-        let mat = chihaya.load(path, "foo");
+        let mat = await chihaya.load(path, "foo");
         expect(mat.numberOfRows()).toBe(NC);
         expect(mat.numberOfColumns()).toBe(NR);
         expect(tripped[0]).toBe("foo");

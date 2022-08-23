@@ -23,6 +23,7 @@ function registerHandler(key, handler, overrides) {
  *
  * @param {string} array - Type of the delayed array, matched against the `delayed_array` attribute.
  * @param {?function} handler - Handler function that accepts a HDF5 group handle (corresponding to the array) and returns a {@linkplain external:ScranMatrix ScranMatrix} object.
+ * Handlers may be async.
  * If `null`, any custom handler was previously registered will be removed.
  *
  * @return {?function} The previously registered handler function, or `null` if no handler was previously registered.
@@ -40,7 +41,8 @@ export function registerArrayHandler(array, handler) {
  * - A HDF5 group handle, corresponding to the delayed operation.
  * - A loader function to be applied to any delayed seeds in the operation.
  * 
- * The handler function should then returns a {@linkplain external:ScranMatrix ScranMatrix} object.
+ * The handler function should then return a {@linkplain external:ScranMatrix ScranMatrix} object.
+ * Handlers may be async.
  * If `null`, any custom handler was previously registered will be removed.
  *
  * @return {?function} The previously registered handler function, or `null` if no handler was previously registered.

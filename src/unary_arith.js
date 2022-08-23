@@ -1,13 +1,13 @@
 import * as scran from "scran.js";
 
-export function load_unary_arithmetic(handle, loadFun) {
+export async function load_unary_arithmetic(handle, loadFun) {
     let method = handle.open("method", { load: true }).values[0];
     let side = handle.open("side", { load: true }).values[0];
     let mat;
 
     if (side == "none") {
         let shandle = handle.open("seed");
-        mat = loadFun(shandle);
+        mat = await loadFun(shandle);
         if (method == "-") {
              try {
                  scran.delayedArithmetic(mat, "*", -1, { inPlace: true });
@@ -32,7 +32,7 @@ export function load_unary_arithmetic(handle, loadFun) {
         }
 
         let shandle = handle.open("seed");
-        mat = loadFun(shandle);
+        mat = await loadFun(shandle);
         try {
             scran.delayedArithmetic(mat, method, val, { right: right, along: along, inPlace: true });
         } catch (e) {

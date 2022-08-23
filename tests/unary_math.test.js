@@ -5,7 +5,7 @@ import * as utils from "./utils.js";
 beforeAll(async () => { await utils.initialize(); });
 afterAll(async () => { await utils.terminate() });
 
-test("unary math loader works for most things", () => {
+test("unary math loader works for most things", async () => {
     const path = utils.testdir + "/test-unary-math.h5";
     utils.purge(path);
 
@@ -22,7 +22,7 @@ test("unary math loader works for most things", () => {
     utils.validate(path, "foo");
 
     // Let's try loading it in.
-    let mat = chihaya.load(path, "foo");
+    let mat = await chihaya.load(path, "foo");
     expect(mat.numberOfRows()).toBe(NR);
     expect(mat.numberOfColumns()).toBe(NC);
 
@@ -34,7 +34,7 @@ test("unary math loader works for most things", () => {
     mat.free();
 })
 
-test("unary math loader works for log", () => {
+test("unary math loader works for log", async () => {
     const path = utils.testdir + "/test-unary-math.h5";
     utils.purge(path);
 
@@ -52,7 +52,7 @@ test("unary math loader works for log", () => {
 
     // Let's try loading it in.
     {
-        let mat = chihaya.load(path, "foo");
+        let mat = await chihaya.load(path, "foo");
         expect(mat.numberOfRows()).toBe(NR);
         expect(mat.numberOfColumns()).toBe(NC);
 
@@ -68,7 +68,7 @@ test("unary math loader works for log", () => {
     {
         ghandle.writeDataSet("base", "Float64", null, 10);
 
-        let mat = chihaya.load(path, "foo");
+        let mat = await chihaya.load(path, "foo");
         expect(mat.numberOfRows()).toBe(NR);
         expect(mat.numberOfColumns()).toBe(NC);
 

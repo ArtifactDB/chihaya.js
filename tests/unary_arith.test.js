@@ -5,7 +5,7 @@ import * as utils from "./utils.js";
 beforeAll(async () => { await utils.initialize(); });
 afterAll(async () => { await utils.terminate() });
 
-test("unary arith loader works for scalars", () => {
+test("unary arith loader works for scalars", async () => {
     const path = utils.testdir + "/test-unary-arith.h5";
     utils.purge(path);
 
@@ -26,7 +26,7 @@ test("unary arith loader works for scalars", () => {
 
     // Let's try loading it in.
     {
-        let mat = chihaya.load(path, "foo");
+        let mat = await chihaya.load(path, "foo");
         expect(mat.numberOfRows()).toBe(NR);
         expect(mat.numberOfColumns()).toBe(NC);
 
@@ -46,7 +46,7 @@ test("unary arith loader works for scalars", () => {
         let shandle = ghandle.open("side");
         shandle.write("left");
 
-        let mat = chihaya.load(path, "foo");
+        let mat = await chihaya.load(path, "foo");
         expect(mat.numberOfRows()).toBe(NR);
         expect(mat.numberOfColumns()).toBe(NC);
 
@@ -59,7 +59,7 @@ test("unary arith loader works for scalars", () => {
     }
 })
 
-test("unary arith loader works for vectors on rows", () => {
+test("unary arith loader works for vectors on rows", async () => {
     const path = utils.testdir + "/test-unary-arith.h5";
     utils.purge(path);
 
@@ -87,7 +87,7 @@ test("unary arith loader works for vectors on rows", () => {
 
     // Let's try loading it in.
     {
-        let mat = chihaya.load(path, "foo");
+        let mat = await chihaya.load(path, "foo");
         expect(mat.numberOfRows()).toBe(NR);
         expect(mat.numberOfColumns()).toBe(NC);
 
@@ -107,7 +107,7 @@ test("unary arith loader works for vectors on rows", () => {
         let shandle = ghandle.open("side");
         shandle.write("right");
 
-        let mat = chihaya.load(path, "foo");
+        let mat = await chihaya.load(path, "foo");
         expect(mat.numberOfRows()).toBe(NR);
         expect(mat.numberOfColumns()).toBe(NC);
 
@@ -120,7 +120,7 @@ test("unary arith loader works for vectors on rows", () => {
     }
 })
 
-test("unary arith loader works for vectors on columns", () => {
+test("unary arith loader works for vectors on columns", async () => {
     const path = utils.testdir + "/test-unary-arith.h5";
     utils.purge(path);
 
@@ -148,7 +148,7 @@ test("unary arith loader works for vectors on columns", () => {
 
     // Let's try loading it in.
     {
-        let mat = chihaya.load(path, "foo");
+        let mat = await chihaya.load(path, "foo");
         expect(mat.numberOfRows()).toBe(NR);
         expect(mat.numberOfColumns()).toBe(NC);
 
@@ -168,7 +168,7 @@ test("unary arith loader works for vectors on columns", () => {
         let shandle = ghandle.open("side");
         shandle.write("right");
 
-        let mat = chihaya.load(path, "foo");
+        let mat = await chihaya.load(path, "foo");
         expect(mat.numberOfRows()).toBe(NR);
         expect(mat.numberOfColumns()).toBe(NC);
 
@@ -181,7 +181,7 @@ test("unary arith loader works for vectors on columns", () => {
     }
 })
 
-test("unary arith loader works with no values", () => {
+test("unary arith loader works with no values", async () => {
     const path = utils.testdir + "/test-unary-arith.h5";
     utils.purge(path);
 
@@ -200,7 +200,7 @@ test("unary arith loader works with no values", () => {
     utils.validate(path, "foo");
 
     {
-        let mat = chihaya.load(path, "foo");
+        let mat = await chihaya.load(path, "foo");
         expect(mat.numberOfRows()).toBe(NR);
         expect(mat.numberOfColumns()).toBe(NC);
 
@@ -216,7 +216,7 @@ test("unary arith loader works with no values", () => {
     utils.validate(path, "foo");
 
     {
-        let mat = chihaya.load(path, "foo");
+        let mat = await chihaya.load(path, "foo");
         expect(mat.numberOfRows()).toBe(NR);
         expect(mat.numberOfColumns()).toBe(NC);
 

@@ -20,7 +20,7 @@ import * as ov from "./overrides.js";
  * On browsers, this file should be present on the virtual file system, see [`writeFile`](https://www.jkanche.com/scran.js/global.html#writeFile).
  * @param {string} name - Name of the group representing the delayed matrix.
  *
- * @return {external:ScranMatrix} A {@linkplain external:ScranMatrix ScranMatrix} containing the delayed matrix.
+ * @return {Promise<external:ScranMatrix>} Promise resolving to a {@linkplain external:ScranMatrix ScranMatrix} containing the delayed matrix.
  */
 export function load(path, name) {
     let handle = new scran.H5Group(path, name);

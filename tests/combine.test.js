@@ -5,7 +5,7 @@ import * as utils from "./utils.js";
 beforeAll(async () => { await utils.initialize() });
 afterAll(async () => { await utils.terminate() });
 
-test("combine loader works as expected with columns", () => {
+test("combine loader works as expected with columns", async () => {
     const path = utils.testdir + "/test-combine.h5";
     utils.purge(path);
 
@@ -30,7 +30,7 @@ test("combine loader works as expected with columns", () => {
     utils.validate(path, "foo");
 
     // Checking if we can load it.
-    let mat = chihaya.load(path, "foo");
+    let mat = await chihaya.load(path, "foo");
     expect(mat.numberOfRows()).toBe(NR);
     expect(mat.numberOfColumns()).toBe(NC1 + NC2);
 
@@ -42,7 +42,7 @@ test("combine loader works as expected with columns", () => {
     mat.free();
 })
 
-test("combine loader works as expected with rows", () => {
+test("combine loader works as expected with rows", async () => {
     const path = utils.testdir + "/test-combine.h5";
     utils.purge(path);
 
@@ -67,7 +67,7 @@ test("combine loader works as expected with rows", () => {
     utils.validate(path, "foo");
 
     // Checking if we can load it.
-    let mat = chihaya.load(path, "foo");
+    let mat = await chihaya.load(path, "foo");
     expect(mat.numberOfRows()).toBe(NR1 + NR2);
     expect(mat.numberOfColumns()).toBe(NC);
 

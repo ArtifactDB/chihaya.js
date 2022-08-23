@@ -5,7 +5,7 @@ import * as utils from "./utils.js";
 beforeAll(async () => { await utils.initialize() });
 afterAll(async () => { await utils.terminate() });
 
-test("subset loader works as expected with rows", () => {
+test("subset loader works as expected with rows", async () => {
     const path = utils.testdir + "/test-subset.h5";
     utils.purge(path);
 
@@ -28,7 +28,7 @@ test("subset loader works as expected with rows", () => {
     utils.validate(path, "foo");
 
     // Checking that we can load it in.
-    let mat = chihaya.load(path, "foo");
+    let mat = await chihaya.load(path, "foo");
     expect(mat.numberOfRows()).toBe(rowsub.length);
     expect(mat.numberOfColumns()).toBe(NC);
 
@@ -40,7 +40,7 @@ test("subset loader works as expected with rows", () => {
     mat.free();
 })
 
-test("subset loader works as expected with columns", () => {
+test("subset loader works as expected with columns", async () => {
     const path = utils.testdir + "/test-subset.h5";
     utils.purge(path);
 
@@ -63,7 +63,7 @@ test("subset loader works as expected with columns", () => {
     utils.validate(path, "foo");
 
     // Checking that we can load it in.
-    let mat = chihaya.load(path, "foo");
+    let mat = await chihaya.load(path, "foo");
     expect(mat.numberOfRows()).toBe(NR);
     expect(mat.numberOfColumns()).toBe(colsub.length);
 
@@ -77,7 +77,7 @@ test("subset loader works as expected with columns", () => {
     mat.free();
 })
 
-test("subset loader works as expected with both rows and columns", () => {
+test("subset loader works as expected with both rows and columns", async () => {
     const path = utils.testdir + "/test-subset.h5";
     utils.purge(path);
 
@@ -102,7 +102,7 @@ test("subset loader works as expected with both rows and columns", () => {
     utils.validate(path, "foo");
 
     // Checking that we can load it in.
-    let mat = chihaya.load(path, "foo");
+    let mat = await chihaya.load(path, "foo");
     expect(mat.numberOfRows()).toBe(rowsub.length);
     expect(mat.numberOfColumns()).toBe(colsub.length);
 
