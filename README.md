@@ -15,7 +15,15 @@ Usage is fairly simple once the HDF5 file is available.
 import * as scran from "scran.js";
 import * as chihaya from "chihaya";
 await scran.initialize(); // may need localFile: true for old Node.js versions.
-let mat = chihaya.load(path_to_file, name_of_group);
+let mat = await chihaya.load(path_to_file, name_of_group);
+```
+
+This produces a [`ScranMatrix`](https://jkanche.com/scran.js/ScranMatrix.html) that can be queried or used in **scran.js** functions:
+
+```js
+let ncols = mat.numberOfColumns();
+let first_row = mat.row(0);
+let normed = scran.logNormCounts(mat);
 ```
 
 Note that on browsers, the HDF5 file should be saved to the virtual filesystem using `scran.writeFile()`.
