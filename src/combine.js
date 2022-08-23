@@ -1,7 +1,8 @@
 import * as scran from "scran.js";
 import * as utils from "./utils.js";
+import { load_ as loadFun } from "./load.js";
 
-export async function load_combine(handle, loadFun) {
+export async function load_combine(handle) {
     let along = handle.open("along", { load: true }).values[0];
     let output;
 

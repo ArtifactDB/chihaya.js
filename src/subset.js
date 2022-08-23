@@ -1,7 +1,8 @@
 import * as scran from "scran.js";
 import * as utils from "./utils.js";
+import { load_ as loadFun } from "./load.js";
 
-export async function load_subset(handle, loadFun) {
+export async function load_subset(handle) {
     let ihandle = handle.open("index");
     let indices = utils.load_vectors(ihandle);
 

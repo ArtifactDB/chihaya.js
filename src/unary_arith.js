@@ -1,6 +1,7 @@
 import * as scran from "scran.js";
+import { load_ as loadFun } from "./load.js";
 
-export async function load_unary_arithmetic(handle, loadFun) {
+export async function load_unary_arithmetic(handle) {
     let method = handle.open("method", { load: true }).values[0];
     let side = handle.open("side", { load: true }).values[0];
     let mat;

@@ -36,12 +36,7 @@ export function registerArrayHandler(array, handler) {
  * Get or set custom handlers for delayed operations in a **chihaya**-formatted HDF5 file.
  *
  * @param {string} operation - Type of the delayed operation, matched against the `delayed_operation` attribute.
- * @param {?function} handler - Handler function that accepts:
- *
- * - A HDF5 group handle, corresponding to the delayed operation.
- * - A loader function to be applied to any delayed seeds in the operation.
- * 
- * The handler function should then return a {@linkplain external:ScranMatrix ScranMatrix} object.
+ * @param {?function} handler - Handler function that accepts a HDF5 group handle (corresponding to the delayed operation) and returns a {@linkplain external:ScranMatrix ScranMatrix} object.
  * Handlers may be async.
  * If `null`, any custom handler was previously registered will be removed.
  *

@@ -41,19 +41,19 @@ export function load_(handle) {
         let op = op_raw.values[0];
 
         if (op in ov.operation_overrides) {
-            return ov.operation_overrides[op](handle, load_);
+            return ov.operation_overrides[op](handle);
         }
 
         if (op == "subset") {
-            return subset.load_subset(handle, load_);
+            return subset.load_subset(handle);
         } else if (op == "combine") {
-            return combine.load_combine(handle, load_);
+            return combine.load_combine(handle);
         } else if (op == "transpose") {
-            return transpose.load_transpose(handle, load_);
+            return transpose.load_transpose(handle);
         } else if (op == "unary arithmetic") {
-            return unary_a.load_unary_arithmetic(handle, load_);
+            return unary_a.load_unary_arithmetic(handle);
         } else if (op == "unary math") {
-            return unary_m.load_unary_math(handle, load_);
+            return unary_m.load_unary_math(handle);
         } else {
             throw new Error("delayed operation '" + op + "' is currently not supported");
         }
