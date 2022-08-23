@@ -1,6 +1,6 @@
 import * as scran from "scran.js";
 
-export async function load_list(handle, { vectorsOnly = true, loadFun = null } = {}) {
+export function check_list(handle) {
     if (handle.attributes.indexOf("delayed_type") == -1) {
         throw new Error("expected a 'delayed_type' attribute to be present for lists");
     }
@@ -12,29 +12,20 @@ export async function load_list(handle, { vectorsOnly = true, loadFun = null } =
         throw new Error("expected a 'delayed_length' attribute to be present for lists");
     }
     let n = handle.readAttribute("delayed_length").values[0];
+    return n;
+}
+
+export function load_vectors(handle) {
+    let n = check_list(handle);
     let output = [];
 
-    try {
-        for (var i = 0; i < n; i++) {
-            let child = String(i);
-
-            if (child in handle.children) {
-                if (vectorsOnly) {
-                    let contents = handle.open(child, { load: true }).values;
-                    output.push(contents);
-                } else {
-                    let chandle = handle.open(child);
-                    output.push(await loadFun(chandle));
-                }
-            } else {
-                output.push(null);
-            }
-        }
-    } catch (e) {
-        if (!vectorsOnly) {
-            for (const s of output) {
-                scran.free(s);
-            }
+    for (var i = 0; i < n; i++) {
+        let child = String(i);
+        if (child in handle.children) {
+            let contents = handle.open(child, { load: true }).values;
+            output.push(contents);
+        } else {
+            output.push(null);
         }
     }
 

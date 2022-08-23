@@ -3,7 +3,7 @@ import * as utils from "./utils.js";
 
 export async function load_subset(handle, loadFun) {
     let ihandle = handle.open("index");
-    let indices = await utils.load_list(ihandle, { vectorsOnly: true });
+    let indices = utils.load_vectors(ihandle);
 
     let x;
     try {

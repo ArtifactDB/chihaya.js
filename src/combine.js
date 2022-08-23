@@ -6,8 +6,15 @@ export async function load_combine(handle, loadFun) {
     let output;
 
     let shandle = handle.open("seeds");
-    let seeds = await utils.load_list(shandle, { vectorsOnly: false, loadFun: loadFun });
+    let n = utils.check_list(shandle);
+
+    let seeds = [];
     try {
+        for (var i = 0; i < n; i++) {
+            let chandle = shandle.open(String(i));
+            seeds.push(await loadFun(chandle));
+        }
+
         if (along == 0) {
             output = scran.rbind(seeds);
         } else {
