@@ -16,7 +16,8 @@ var create_layered = true;
 
 /**
  * Should sparse matrices be loaded in layered format?
- * This sacrifice some access speed for improved memory efficiency.
+ * This sacrifices some access speed for improved memory efficiency - see [here](https://github.com/jkanche/scran.js/blob/master/docs/related/row_permutations.md) for details.
+ * (Note that **chihaya** automatically restores the original row order, so no extra book-keeping is required for `row_ids`.)
  *
  * @param {?boolean} [layered=null] - Whether to load a sparse matrix in layered format.
  * If `null`, the existing value of this flag is returned without any change.
