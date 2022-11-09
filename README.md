@@ -49,12 +49,12 @@ Application developers can add custom handlers for their own delayed operations/
 
 ## Developer notes
 
-This package compiles the **chihaya** C++ library to WebAssembly for testing purposes only.
+For testing purposes, this package compiles the [**chihaya** C++ library](https://github.com/LTLA/chihaya) to WebAssembly. 
 Building the Wasm binary requires the [Emscripten toolchain](https://emscripten.org) and a recent version of [CMake](https://cmake.org).
 Once these are installed, we can simply do:
 
 ```sh
-./build.sh 
+cd wasm && ./build.sh 
 ```
 
 Testing usually involves some combination of Node flags to enable Wasm support, see the `package.json` for more details.
