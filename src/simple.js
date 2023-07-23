@@ -16,8 +16,7 @@ var create_layered = true;
 
 /**
  * Should sparse matrices be loaded in layered format?
- * This sacrifices some access speed for improved memory efficiency - see [here](https://github.com/jkanche/scran.js/blob/master/docs/related/row_permutations.md) for details.
- * (Note that **chihaya** automatically restores the original row order, so no extra book-keeping is required for `row_ids`.)
+ * This sacrifices some access speed for improved memory efficiency - see [here](https://github.com/tatami-inc/tatami_layered) for details.
  *
  * @param {?boolean} [layered=null] - Whether to load a sparse matrix in layered format.
  * If `null`, the existing value of this flag is returned without any change.
@@ -37,18 +36,5 @@ export function sparseLayered(layered = null) {
 }
 
 export function load_csparse_matrix(handle) {
-    let raw = scran.initializeSparseMatrixFromHDF5(handle.file, handle.name, { layered: sparseLayered() });
-    let mat = raw.matrix;
-
-    if (raw.row_ids !== null) {
-        // Restoring the order, which is easier than carrying a custom order
-        // throughout the various delayed layers.
-        let new_ids = new Int32Array(mat.numberOfRows());
-        raw.row_ids.forEach((x, i) => {
-            new_ids[x] = i;
-        });
-        scran.subsetRows(mat, new_ids, { inPlace: true });
-    }
-
-    return mat;
+    return scran.initializeSparseMatrixFromHDF5(handle.file, handle.name, { layered: sparseLayered() });
 }

@@ -5,7 +5,7 @@ name: Test JS bindings
 jobs:
   test-js:
     runs-on: ubuntu-latest
-    container: ghcr.io/ltla/chihaya.js/builder:latest
+    container: ghcr.io/artifactdb/chihaya.js-docker/builder:latest
     defaults:
       run:
         working-directory: /chihaya.js
