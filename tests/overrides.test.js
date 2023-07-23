@@ -11,7 +11,7 @@ test("array overrides work as expected", async () => {
     const path = utils.testdir + "/test-dense.h5";
     utils.purge(path);
 
-    let fhandle = scran.createNewHDF5File(path);
+    let fhandle = scran.createNewHdf5File(path);
     let ghandle = fhandle.createGroup("foo");
 
     let NR = 5;
@@ -42,7 +42,7 @@ test("operation overrides work as expected", async () => {
     const path = utils.testdir + "/test-transpose.h5";
     utils.purge(path);
 
-    let fhandle = scran.createNewHDF5File(path);
+    let fhandle = scran.createNewHdf5File(path);
     let ghandle = fhandle.createGroup("foo");
     ghandle.writeAttribute("delayed_type", "String", [], "operation");
     ghandle.writeAttribute("delayed_operation", "String", [], "transpose");

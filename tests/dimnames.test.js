@@ -9,7 +9,7 @@ test("dimname loader works as expected", async () => {
     const path = utils.testdir + "/test-combine.h5";
     utils.purge(path);
 
-    let fhandle = scran.createNewHDF5File(path);
+    let fhandle = scran.createNewHdf5File(path);
     let ghandle = fhandle.createGroup("blah");
     ghandle.writeAttribute("delayed_type", "String", [], "operation");
     ghandle.writeAttribute("delayed_operation", "String", [], "dimnames");

@@ -9,7 +9,7 @@ test("subset loader works as expected with rows", async () => {
     const path = utils.testdir + "/test-subset.h5";
     utils.purge(path);
 
-    let fhandle = scran.createNewHDF5File(path);
+    let fhandle = scran.createNewHdf5File(path);
     let ghandle = fhandle.createGroup("foo");
     ghandle.writeAttribute("delayed_type", "String", [], "operation");
     ghandle.writeAttribute("delayed_operation", "String", [], "subset");
@@ -44,7 +44,7 @@ test("subset loader works as expected with columns", async () => {
     const path = utils.testdir + "/test-subset.h5";
     utils.purge(path);
 
-    let fhandle = scran.createNewHDF5File(path);
+    let fhandle = scran.createNewHdf5File(path);
     let ghandle = fhandle.createGroup("foo");
     ghandle.writeAttribute("delayed_type", "String", [], "operation");
     ghandle.writeAttribute("delayed_operation", "String", [], "subset");
@@ -81,7 +81,7 @@ test("subset loader works as expected with both rows and columns", async () => {
     const path = utils.testdir + "/test-subset.h5";
     utils.purge(path);
 
-    let fhandle = scran.createNewHDF5File(path);
+    let fhandle = scran.createNewHdf5File(path);
     let ghandle = fhandle.createGroup("foo");
     ghandle.writeAttribute("delayed_type", "String", [], "operation");
     ghandle.writeAttribute("delayed_operation", "String", [], "subset");
