@@ -1,6 +1,6 @@
 {
     "name": "chihaya",
-    "version": "2.0.0-alpha.1",
+    "version": "2.0.0-alpha.2",
     "description": "Load a chihaya-formatted delayed matrix into a Javascript session",
     "type": "module",
     "license": "MIT",
