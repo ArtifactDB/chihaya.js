@@ -16,6 +16,11 @@ jobs:
         git fetch --all
         git checkout $GITHUB_SHA
 
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+
     - name: Update node build 
       run: |
         cd wasm
