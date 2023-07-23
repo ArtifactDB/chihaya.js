@@ -24,14 +24,14 @@ include(FetchContent)
 FetchContent_Declare(
   chihaya
   GIT_REPOSITORY https://github.com/LTLA/chihaya
-  GIT_TAG e8d641d0bdf8e205d1a274e105d0e65397361bc4
+  GIT_TAG 65ff27631c92f6d11d7a674f5635c17f16c9d981
 )
 FetchContent_MakeAvailable(chihaya)
 
 FetchContent_Declare(
   h5wasm
-  URL https://github.com/usnistgov/libhdf5-wasm/releases/download/v0.1.1/libhdf5-1_12_1-wasm.tar.gz
-  URL_HASH SHA256=e9bb11d89c4f26fa79b9cf1dab6159640c7b184ebf00dc97b098cd4f6de49bfe
+  URL https://github.com/kanaverse/libhdf5-wasm/releases/download/v0.3.0_3.1.43/libhdf5-1_12_2-wasm.tar.gz
+  URL_HASH SHA256=b2e58b102fe98326c77f1a160025c47a062c1a205818568680d5f5ed78df801c
 )
 
 FetchContent_MakeAvailable(h5wasm)
@@ -57,10 +57,3 @@ set_target_properties(chihaya_wasm PROPERTIES
 
 # Using the Node FS API for HDF5 access.
 set_property(TARGET chihaya_wasm APPEND APPEND_STRING PROPERTY LINK_FLAGS " -s ENVIRONMENT=node -s NODERAWFS=1 -s FORCE_FILESYSTEM=1")
-
-add_custom_command(TARGET chihaya_wasm POST_BUILD
-    COMMAND cat ../misc/preamble.js chihaya.js > tmp.js
-    COMMAND mv tmp.js chihaya.js
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Adding ES6 preamble for Node"
-)
