@@ -9,7 +9,7 @@ test("unary arith loader works for scalars", async () => {
     const path = utils.testdir + "/test-unary-arith.h5";
     utils.purge(path);
 
-    let fhandle = scran.createNewHDF5File(path);
+    let fhandle = scran.createNewHdf5File(path);
     let ghandle = fhandle.createGroup("foo");
     ghandle.writeAttribute("delayed_type", "String", [], "operation");
     ghandle.writeAttribute("delayed_operation", "String", [], "unary arithmetic");
@@ -63,7 +63,7 @@ test("unary arith loader works for vectors on rows", async () => {
     const path = utils.testdir + "/test-unary-arith.h5";
     utils.purge(path);
 
-    let fhandle = scran.createNewHDF5File(path);
+    let fhandle = scran.createNewHdf5File(path);
     let ghandle = fhandle.createGroup("foo");
     ghandle.writeAttribute("delayed_type", "String", [], "operation");
     ghandle.writeAttribute("delayed_operation", "String", [], "unary arithmetic");
@@ -124,7 +124,7 @@ test("unary arith loader works for vectors on columns", async () => {
     const path = utils.testdir + "/test-unary-arith.h5";
     utils.purge(path);
 
-    let fhandle = scran.createNewHDF5File(path);
+    let fhandle = scran.createNewHdf5File(path);
     let ghandle = fhandle.createGroup("foo");
     ghandle.writeAttribute("delayed_type", "String", [], "operation");
     ghandle.writeAttribute("delayed_operation", "String", [], "unary arithmetic");
@@ -185,7 +185,7 @@ test("unary arith loader works with no values", async () => {
     const path = utils.testdir + "/test-unary-arith.h5";
     utils.purge(path);
 
-    let fhandle = scran.createNewHDF5File(path);
+    let fhandle = scran.createNewHdf5File(path);
     let ghandle = fhandle.createGroup("foo");
     ghandle.writeAttribute("delayed_type", "String", [], "operation");
     ghandle.writeAttribute("delayed_operation", "String", [], "unary arithmetic");
