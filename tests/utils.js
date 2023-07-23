@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import loadChihaya from "../wasm/final/chihaya.js";
+import loadChihaya from "../wasm/build/chihaya.js";
 import * as scran from "scran.js";
 
 export const testdir = "hdf5-test-files";
@@ -50,15 +50,9 @@ export function almost_equal(vec1, vec2) {
 
 var cache = {};
 
-export async function initialize({ localFile = true } = {}) {
-    await scran.initialize({ localFile: localFile });
-
-    let options = {};
-    if (localFile) {
-        options.locateFile = (x) => import.meta.url.substring(7) + "/../../wasm/final/" + x;
-    }
-
-    cache.module = await loadChihaya(options);
+export async function initialize() {
+    await scran.initialize();
+    cache.module = await loadChihaya();
 }
 
 export async function terminate() {

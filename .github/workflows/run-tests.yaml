@@ -5,7 +5,7 @@ name: Test JS bindings
 jobs:
   test-js:
     runs-on: ubuntu-latest
-    container: ghcr.io/ltla/chihaya.js/builder:latest
+    container: ghcr.io/artifactdb/chihaya.js-docker/builder:master
     defaults:
       run:
         working-directory: /chihaya.js
@@ -15,6 +15,11 @@ jobs:
       run: |
         git fetch --all
         git checkout $GITHUB_SHA
+
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
 
     - name: Update node build 
       run: |
