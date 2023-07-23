@@ -23,8 +23,8 @@
         "jsdoc": "^3.6.11"
     },
     "repository": "github:ltla/chihaya",
-    "homepage": "https://github.com/ltla/chihaya",
-    "bugs": "https://github.com/ltla/chihaya/issues",
+    "homepage": "https://github.com/ArtifactDB/chihaya.js",
+    "bugs": "https://github.com/ArtifactDB/chihaya.js/issues",
     "keywords": [
         "bioinformatics",
         "webassembly"
