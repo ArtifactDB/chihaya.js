@@ -36,5 +36,5 @@ export function sparseLayered(layered = null) {
 }
 
 export function load_csparse_matrix(handle) {
-    return scran.initializeSparseMatrixFromHDF5(handle.file, handle.name, { layered: sparseLayered() });
+    return scran.initializeSparseMatrixFromHdf5(handle.file, handle.name, { layered: sparseLayered() });
 }
