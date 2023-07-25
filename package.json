@@ -1,6 +1,6 @@
 {
     "name": "chihaya",
-    "version": "2.0.0-alpha.2",
+    "version": "2.0.0",
     "description": "Load a chihaya-formatted delayed matrix into a Javascript session",
     "type": "module",
     "license": "MIT",
@@ -15,14 +15,14 @@
         "test": "node --experimental-vm-modules --experimental-wasm-threads node_modules/jest/bin/jest.js --runInBand --testTimeout=1000000"
     },
     "dependencies": {
-        "scran.js": "3.0.0-alpha.2"
+        "scran.js": "^3.0.0"
     },
     "devDependencies": {
         "docdash": "^1.2.0",
         "jest": "^28.1.3",
         "jsdoc": "^3.6.11"
     },
-    "repository": "github:ltla/chihaya",
+    "repository": "github:artifactdb/chihaya.js",
     "homepage": "https://github.com/ArtifactDB/chihaya.js",
     "bugs": "https://github.com/ArtifactDB/chihaya.js/issues",
     "keywords": [
